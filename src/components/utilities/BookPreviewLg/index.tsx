@@ -32,7 +32,8 @@ export function BookPreviewLg({ book, isReaded }: BookPreviewProps) {
         alt="livro"
         width={108}
         height={152}
-        className="object-cover rounded-[4px]"
+        className="object-cover rounded-[4px] h-[152px] w-[108px]"
+        priority
       />
 
       <div className="flex flex-col justify-between w-full h-full">

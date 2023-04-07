@@ -23,7 +23,8 @@ export function BookPreview({ book }: BookPreviewProps) {
         alt="livro"
         width={64}
         height={94}
-        className="object-cover rounded-[4px]"
+        className="object-cover rounded-[4px] h-[94px] w-[64px]"
+        priority
       />
 
       <div className="flex flex-col justify-between flex-1 h-full">

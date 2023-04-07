@@ -48,7 +48,13 @@ const Header = () => {
 
       <div className="z-20 mt-4">
         <Link href="/">
-          <Image src={Logo} alt="logo" className="cursor-pointer" width={128} />
+          <Image
+            src={Logo}
+            alt="logo"
+            className="cursor-pointer"
+            width={128}
+            priority
+          />
         </Link>
       </div>
 

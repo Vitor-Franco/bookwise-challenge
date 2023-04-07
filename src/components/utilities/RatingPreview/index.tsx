@@ -70,6 +70,7 @@ export function RatingPreview({ rating }: RatingPreviewProps) {
           width={108}
           height={152}
           className="object-cover w-[108px] h-[152px] aspect-auto"
+          priority
         />
 
         <div className="flex-1">
