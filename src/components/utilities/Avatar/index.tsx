@@ -40,22 +40,18 @@ function UserInitials({ size, username }: UserInitialsProps) {
 }
 
 export function Avatar({ size = 40, imageUrl, username }: AvatarProps) {
-  const sizeInPx = `${size}px`
-  const imageMinusBorder = size - size * 0.1
-
   return (
-    <div
-      className={`rounded-full overflow-hidden flex items-center justify-center min-h-[${sizeInPx}] h-[${sizeInPx}] min-w-[${sizeInPx}] w-[${sizeInPx}] bg-gradient-vertical`}
-    >
+    <div className="rounded-full overflow-hidden h-fit w-fit p-[2px] flex items-center justify-center bg-gradient-vertical">
       {!imageUrl ? (
-        <UserInitials size={imageMinusBorder} username={username} />
+        <UserInitials size={size} username={username} />
       ) : (
         <Image
           src={imageUrl}
           alt="user review"
-          width={imageMinusBorder}
-          height={imageMinusBorder}
-          className={`object-cover rounded-full aspect-square object-bottom min-h-[${imageMinusBorder}px] h-[${imageMinusBorder}px] min-w-[${imageMinusBorder}px] w-[${imageMinusBorder}px]`}
+          width={size}
+          height={size}
+          priority
+          className={`object-cover rounded-full aspect-square object-bottom min-h-[${size}px] h-[${size}px] min-w-[${size}px] w-[${size}px]`}
         />
       )}
     </div>

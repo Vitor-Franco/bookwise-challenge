@@ -27,7 +27,7 @@ export function ScrollToTop(props: ScrollToTopProps) {
 
   useEffect(() => {
     scrollYProgress.on('change', (latestValue) => {
-      if (latestValue > 0.15) {
+      if (latestValue > 0.15 && window.scrollY > 0) {
         controls.start('show')
       } else {
         controls.start('hide')

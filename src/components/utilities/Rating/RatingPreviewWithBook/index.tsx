@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
-import { Avatar } from '../Avatar'
+import { Avatar } from '../../Avatar'
 import { RatingStars } from '../RatingStars'
-import dayjs from '@/lib/dayjs'
+import dayjs from 'dayjs'
 
 interface Rating {
   id: string
@@ -20,11 +20,11 @@ interface Rating {
   }
 }
 
-type RatingPreviewProps = {
+type RatingPreviewWithBookProps = {
   rating: Rating
 }
 
-export function RatingPreview({ rating }: RatingPreviewProps) {
+export function RatingPreviewWithBook({ rating }: RatingPreviewWithBookProps) {
   const contentRef = useRef<HTMLDivElement>(null)
   const [isClamped, setClamped] = useState(false)
 
@@ -79,7 +79,7 @@ export function RatingPreview({ rating }: RatingPreviewProps) {
 
           <p
             ref={contentRef}
-            className="mt-5 text-sm text-gray-300 line-clamp-3"
+            className="mt-5 text-sm text-gray-300 line-clamp-4"
           >
             {rating.book.summary}
           </p>

@@ -4,5 +4,3 @@ import 'dayjs/locale/pt-br'
 
 dayjs.locale('pt-br')
 dayjs.extend(relativeTime)
-
-export default dayjs

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { RatingStars } from '../RatingStars'
+import { RatingStars } from '../../Rating/RatingStars'
 
 interface Book {
   id: string
@@ -18,7 +18,7 @@ type BookPreviewProps = {
 
 export function BookPreviewLg({ book, isReaded }: BookPreviewProps) {
   return (
-    <button className="relative overflow-hidden text-left cursor-pointer flex gap-5 h-[184px] w-full rounded-lg px-5 py-[18px] bg-gray-700 hover:bg-gray-600">
+    <div className="relative overflow-hidden text-left cursor-pointer flex gap-5 h-[184px] w-full rounded-lg px-5 py-[18px] bg-gray-700 hover:bg-gray-600">
       {isReaded && (
         <div className="absolute right-0 px-3 py-1 bg-green-300 rounded-tl rounded-bl bottom-4 w-fit">
           <span className="text-xs font-bold text-green-100 uppercase">
@@ -46,6 +46,6 @@ export function BookPreviewLg({ book, isReaded }: BookPreviewProps) {
           <RatingStars rating={book.rate} />
         </div>
       </div>
-    </button>
+    </div>
   )
 }

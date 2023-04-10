@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Nunito', 'sans-serif'],
+        sans: ['Nunito Sans', 'sans-serif'],
       },
       fontSize: {
         xs: '0.75rem',

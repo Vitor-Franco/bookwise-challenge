@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -11,7 +12,26 @@ export default async function handler(
     return response.status(405).end()
   }
 
+  const { categories: queryCategories } = request.query as {
+    categories: string[]
+  }
+
+  let whereQuery = {} as Prisma.BookWhereInput
+
+  if (queryCategories && queryCategories.length) {
+    whereQuery = {
+      categories: {
+        some: {
+          categoryId: {
+            in: queryCategories,
+          },
+        },
+      },
+    }
+  }
+
   const books = await prisma.book.findMany({
+    where: whereQuery,
     include: {
       ratings: {
         select: {

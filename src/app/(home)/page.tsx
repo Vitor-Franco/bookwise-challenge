@@ -1,7 +1,7 @@
 'use client'
 
-import { BookPreview } from '@/components/utilities/BookPreview'
-import { RatingPreview } from '@/components/utilities/RatingPreview'
+import { BookPreview } from '@/components/utilities/Book'
+import { RatingPreviewWithBook } from '@/components/utilities/Rating'
 import { api } from '@/lib/axios'
 import { CaretRight, ChartLineUp } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
@@ -64,7 +64,7 @@ export default function App() {
 
           <div className="gap-3 mt-4 space-y-3">
             {ratings?.map((rating) => {
-              return <RatingPreview key={rating.id} rating={rating} />
+              return <RatingPreviewWithBook key={rating.id} rating={rating} />
             })}
           </div>
         </main>

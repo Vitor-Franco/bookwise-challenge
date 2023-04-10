@@ -1,21 +1,16 @@
 import Header from '@/components/main/Header'
-import '../../styles/globals.css'
 import { ReactNode } from 'react'
 
 export const metadata = {
-  title: 'Bookwise | Home',
+  title: 'Home | Bookwise',
   description: '',
 }
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <div className="flex w-full min-h-screen p-5 bg-gray-800">
-          <Header />
-          <div className="w-full mx-24 mt-10">{children}</div>
-        </div>
-      </body>
-    </html>
+    <div className="flex w-full min-h-screen p-5 bg-gray-800">
+      <Header />
+      <div className="w-full mx-24 mt-10">{children}</div>
+    </div>
   )
 }

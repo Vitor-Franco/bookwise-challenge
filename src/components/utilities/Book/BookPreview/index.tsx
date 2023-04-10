@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { RatingStars } from '../RatingStars'
+import { RatingStars } from '../../Rating/RatingStars'
 
 interface Book {
   id: string

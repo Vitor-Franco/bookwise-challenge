@@ -1,12 +1,14 @@
 'use client'
 
-import { BookPreviewLg } from '@/components/utilities/BookPreviewLg'
+import { BookPreviewLg, DialogBookContent } from '@/components/utilities/Book'
 import { Input } from '@/components/utilities/Input'
 import { Category } from '@/components/utilities/Category'
 import { api } from '@/lib/axios'
 import { Binoculars, MagnifyingGlass } from '@phosphor-icons/react'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import qs from 'qs'
+import * as Dialog from '@radix-ui/react-dialog'
 
 interface Book {
   id: string
@@ -37,9 +39,16 @@ export default function Explore() {
   }
 
   const { data: books } = useQuery<Book[]>(
-    ['books'],
+    ['books', selectedCategories],
     async () => {
-      const response = await api.get('/books')
+      const response = await api.get('/books', {
+        params: {
+          categories: selectedCategories,
+        },
+        paramsSerializer: function (params) {
+          return qs.stringify(params, { arrayFormat: 'repeat' })
+        },
+      })
 
       return response.data
     },
@@ -51,14 +60,20 @@ export default function Explore() {
   const { data: categories } = useQuery<Tag[]>(
     ['categories'],
     async () => {
-      const response = await api.get('/categories')
+      const { data: response } = await api.get('/categories')
 
-      return response.data
+      setSelectedCategories(response.map((category: Tag) => category.id))
+      return response
     },
     {
       staleTime: 2 * 60 * 1000, // 2 minutes
     },
   )
+
+  const [bookId, setBookId] = useState<string>('')
+  function handleBookDetails(bookId: string) {
+    setBookId(bookId)
+  }
 
   return (
     <div>
@@ -90,9 +105,17 @@ export default function Explore() {
             })}
           </div>
 
-          <div className="grid grid-cols-3 gap-5 mt-12">
+          <div className="grid grid-cols-2 gap-5 mt-12 mb-3 2xl:grid-cols-3">
             {books?.map((book) => {
-              return <BookPreviewLg isReaded={true} key={book.id} book={book} />
+              return (
+                <Dialog.Root key={book.id}>
+                  <Dialog.Trigger onClick={() => handleBookDetails(book.id)}>
+                    <BookPreviewLg isReaded={true} book={book} />
+                  </Dialog.Trigger>
+
+                  <DialogBookContent bookId={bookId} />
+                </Dialog.Root>
+              )
             })}
           </div>
         </main>

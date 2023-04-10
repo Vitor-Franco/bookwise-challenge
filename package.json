@@ -29,6 +29,7 @@
     "next": "^13.3.0",
     "next-auth": "^4.20.1",
     "nookies": "^2.5.2",
+    "qs": "^6.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sharp": "^0.32.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
+    "@types/qs": "^6.9.7",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.36.0",
     "postcss": "^8.4.21",

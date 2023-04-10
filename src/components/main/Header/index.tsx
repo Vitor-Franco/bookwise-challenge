@@ -60,26 +60,32 @@ const Header = () => {
 
       <ul className="z-20 mt-16">
         <li>
-          <Link href="/" className="block">
+          <Link href="/" className="min-w-[100px] block">
             <span
-              className={clsx('relative flex gap-3 leading-6', {
-                'font-bold before:block before:absolute text-gray-100 before:-inset-0 before:-left-5 before:bg-gradient-vertical before:w-[4px] before:h-full before:rounded-full':
-                  pathname === '/',
-                'text-gray-400': pathname !== '/',
-              })}
+              className={clsx(
+                'relative flex gap-3 leading-6 before:block before:absolute before:-inset-0 before:-left-5 before:rounded-full before:w-[4px] before:h-full ',
+                {
+                  'font-bold text-gray-100 before:bg-gradient-vertical':
+                    pathname === '/',
+                  'text-gray-400': pathname !== '/',
+                },
+              )}
             >
               <ChartLineUp size={24} /> Início
             </span>
           </Link>
         </li>
         <li>
-          <Link href="/explore" className="block mt-8">
+          <Link href="/explore" className="min-w-[100px] block mt-8">
             <span
-              className={clsx('relative flex gap-3 leading-6', {
-                'font-bold before:block before:absolute text-gray-100 before:-inset-0 before:-left-5 before:bg-gradient-vertical before:w-[4px] before:h-full before:rounded-full':
-                  pathname === '/explore',
-                'text-gray-400': pathname !== '/explore',
-              })}
+              className={clsx(
+                'relative flex gap-3 leading-6 before:block before:absolute before:-inset-0 before:-left-5 before:rounded-full before:w-[4px] before:h-full ',
+                {
+                  'font-bold text-gray-100 before:bg-gradient-vertical':
+                    pathname === '/explore',
+                  'text-gray-400': pathname !== '/explore',
+                },
+              )}
             >
               <Binoculars size={24} /> Explorar
             </span>
@@ -87,13 +93,16 @@ const Header = () => {
         </li>
         {isAuthenticated && (
           <li>
-            <button className="block mt-8">
+            <button className="min-w-[100px] block mt-8">
               <span
-                className={clsx('relative flex gap-3 leading-6', {
-                  'font-bold before:block before:absolute text-gray-100 before:-inset-0 before:-left-5 before:bg-gradient-vertical before:w-[4px] before:h-full before:rounded-full':
-                    pathname === '/profile',
-                  'text-gray-400': pathname !== '/profile',
-                })}
+                className={clsx(
+                  'relative flex gap-3 leading-6 before:block before:absolute before:-inset-0 before:-left-5 before:rounded-full before:w-[4px] before:h-full ',
+                  {
+                    'font-bold text-gray-100 before:bg-gradient-vertical':
+                      pathname === '/profile',
+                    'text-gray-400': pathname !== '/profile',
+                  },
+                )}
               >
                 <User size={24} /> Perfil
               </span>
