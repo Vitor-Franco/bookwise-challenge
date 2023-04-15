@@ -1,23 +1,37 @@
 import React, { useState } from 'react'
-import { RatingStars } from '../RatingStars'
 import { Avatar } from '../../Avatar'
 import { useSession } from 'next-auth/react'
 import { Check, X } from '@phosphor-icons/react'
 import { TextArea } from '../../TextArea'
+import { StarsToRate } from '../../StarsToRate'
+
+interface IOnSave {
+  description: string
+  user_id: string
+  rate: number
+}
 
 type RateProps = {
   onAbortRating: () => void
+  onSave: (params: IOnSave) => void
 }
 
-export function Rate({ onAbortRating }: RateProps) {
+interface IRateAmount {
+  weight: number
+  value: number
+}
+
+export function Rate({ onAbortRating, onSave }: RateProps) {
+  const [rateAmount, setRateAmount] = useState(0)
   const [ratingText, setRatingText] = useState('')
   const [ratingErrors, setRatingErrors] = useState('')
+  const starsToRate = [1, 2, 3, 4, 5]
 
   const { data: session } = useSession()
 
   if (!session) return null
 
-  function onSave() {
+  async function handleSubmit() {
     if (ratingText.length < 10) {
       setRatingErrors('Avaliação muito curta')
       return
@@ -28,7 +42,46 @@ export function Rate({ onAbortRating }: RateProps) {
       return
     }
 
+    if (rateAmount <= 0) {
+      setRatingErrors('Selecione uma nota')
+      return
+    }
+
     setRatingErrors('')
+
+    onSave({
+      description: ratingText,
+      rate: rateAmount,
+      user_id: session?.user.id!,
+    })
+  }
+
+  function handleSaveRate({ weight, value }: IRateAmount) {
+    const fullValue = weight * 1
+
+    if (value === 1) {
+      setRateAmount(fullValue)
+      return
+    }
+
+    const halfAmount = fullValue - 0.5
+    setRateAmount(halfAmount)
+  }
+
+  function getAmountStar(amount: number, star: number) {
+    const isGreaterOrEqualStar = amount >= star
+
+    if (isGreaterOrEqualStar) {
+      return 1
+    }
+
+    const isHalfStar = amount >= star - 0.5
+
+    if (isHalfStar) {
+      return 0.5
+    }
+
+    return 0
   }
 
   return (
@@ -42,8 +95,15 @@ export function Rate({ onAbortRating }: RateProps) {
 
           <span className="font-bold text-gray-100">{session.user.name}</span>
         </div>
-        <div className="flex gap-1">
-          <RatingStars rating={4} />
+
+        <div className="flex gap-2">
+          {starsToRate.map((star) => (
+            <StarsToRate
+              key={star}
+              onChangeRate={(value) => handleSaveRate({ weight: star, value })}
+              getActualValue={() => getAmountStar(rateAmount, star)}
+            />
+          ))}
         </div>
       </div>
 
@@ -77,7 +137,7 @@ export function Rate({ onAbortRating }: RateProps) {
         <button
           type="button"
           className="rounded-[4px] flex items-center justify-center w-10 h-10 p-2 text-green-100 bg-gray-600"
-          onClick={onSave}
+          onClick={handleSubmit}
         >
           <Check size={24} />
         </button>

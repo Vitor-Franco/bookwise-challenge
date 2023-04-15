@@ -93,20 +93,20 @@ const Header = () => {
         </li>
         {isAuthenticated && (
           <li>
-            <button className="min-w-[100px] block mt-8">
+            <Link href="/profile" className="min-w-[100px] block mt-8">
               <span
                 className={clsx(
                   'relative flex gap-3 leading-6 before:block before:absolute before:-inset-0 before:-left-5 before:rounded-full before:w-[4px] before:h-full ',
                   {
                     'font-bold text-gray-100 before:bg-gradient-vertical':
-                      pathname === '/profile',
+                      pathname ? pathname.includes('/profile') : false,
                     'text-gray-400': pathname !== '/profile',
                   },
                 )}
               >
                 <User size={24} /> Perfil
               </span>
-            </button>
+            </Link>
           </li>
         )}
       </ul>

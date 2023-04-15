@@ -40,12 +40,18 @@ interface IBookDetails {
   }[]
 }
 
+interface IRatingCreate {
+  description: string
+  rate: number
+  user_id: string
+}
+
 export const DialogBookContent = React.forwardRef<any, ModalBookDetailsProps>(
   ({ bookId }, forwardedRef) => {
     const [isRating, setIsRating] = useState(false)
-    const { status } = useSession()
+    const { status, data } = useSession()
 
-    const { data: book } = useQuery<IBookDetails>(
+    const { data: book, refetch } = useQuery<IBookDetails>(
       ['books', bookId],
       async () => {
         const response = await api.get(`/books/${bookId}`)
@@ -57,8 +63,25 @@ export const DialogBookContent = React.forwardRef<any, ModalBookDetailsProps>(
       },
     )
 
+    const userRated = book?.ratings?.find(
+      (rate) => rate.user.id === data?.user.id,
+    )
+
     function handleAbortRating() {
       setIsRating(false)
+    }
+
+    async function handleOnSave({ description, rate, user_id }: IRatingCreate) {
+      try {
+        await api.post('/ratings', {
+          description,
+          rate,
+          user_id,
+          book_id: bookId,
+        })
+
+        refetch()
+      } catch (error) {}
     }
 
     return (
@@ -94,7 +117,7 @@ export const DialogBookContent = React.forwardRef<any, ModalBookDetailsProps>(
                 </Dialog.Root>
               )}
 
-              {status === 'authenticated' && !isRating && (
+              {status === 'authenticated' && !isRating && !userRated && (
                 <button
                   type="button"
                   className="font-bold text-purple-100"
@@ -106,7 +129,9 @@ export const DialogBookContent = React.forwardRef<any, ModalBookDetailsProps>(
             </div>
 
             <div className="mt-3 space-y-3">
-              {isRating && <Rate onAbortRating={handleAbortRating} />}
+              {isRating && (
+                <Rate onAbortRating={handleAbortRating} onSave={handleOnSave} />
+              )}
 
               {book?.ratings && book.ratings.length > 0 ? (
                 book.ratings.map((review) => (

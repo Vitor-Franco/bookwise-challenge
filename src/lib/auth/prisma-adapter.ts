@@ -21,12 +21,20 @@ export function PrismaAdapter(
         email: '',
         avatar_url: prismaUser.avatar_url!,
         emailVerified: null,
+        ratings: [],
       }
     },
 
     async getUser(id) {
       const user = await prisma.user.findUnique({
         where: { id },
+        include: {
+          ratings: {
+            select: {
+              book_id: true,
+            },
+          },
+        },
       })
 
       if (!user) {
@@ -39,6 +47,9 @@ export function PrismaAdapter(
         avatar_url: user.avatar_url || '',
         email: '',
         emailVerified: null,
+        ratings: user.ratings.map((rate) => {
+          return rate.book_id
+        }),
       }
     },
 
@@ -55,7 +66,11 @@ export function PrismaAdapter(
           },
         },
         include: {
-          user: true,
+          user: {
+            include: {
+              ratings: true,
+            },
+          },
         },
       })
 
@@ -71,6 +86,9 @@ export function PrismaAdapter(
         email: '',
         avatar_url: user.avatar_url!,
         emailVerified: null,
+        ratings: user.ratings.map((rate) => {
+          return rate.book_id
+        }),
       }
     },
 
@@ -83,6 +101,9 @@ export function PrismaAdapter(
           name: user.name!,
           avatar_url: user.image!,
         },
+        include: {
+          ratings: true,
+        },
       })
 
       return {
@@ -91,6 +112,9 @@ export function PrismaAdapter(
         email: '',
         avatar_url: prismaUser.avatar_url!,
         emailVerified: null,
+        ratings: prismaUser.ratings.map((rate) => {
+          return rate.book_id
+        }),
       }
     },
 
@@ -134,7 +158,11 @@ export function PrismaAdapter(
           session_token: sessionToken,
         },
         include: {
-          user: true,
+          user: {
+            include: {
+              ratings: true,
+            },
+          },
         },
       })
 
@@ -156,6 +184,9 @@ export function PrismaAdapter(
           email: '',
           avatar_url: user.avatar_url!,
           emailVerified: null,
+          ratings: user.ratings.map((rate) => {
+            return rate.book_id
+          }),
         },
       }
     },

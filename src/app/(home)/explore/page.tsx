@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import qs from 'qs'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useSession } from 'next-auth/react'
 
 interface Book {
   id: string
@@ -17,6 +18,7 @@ interface Book {
   name: string
   summary: string
   rate: number
+  ratedBy: string[]
 }
 
 interface Tag {
@@ -25,7 +27,9 @@ interface Tag {
 }
 
 export default function Explore() {
+  const { data: session } = useSession()
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [bookId, setBookId] = useState<string>('')
 
   function toggleCategoryFilter(category: string) {
     if (selectedCategories.includes(category)) {
@@ -70,7 +74,6 @@ export default function Explore() {
     },
   )
 
-  const [bookId, setBookId] = useState<string>('')
   function handleBookDetails(bookId: string) {
     setBookId(bookId)
   }
@@ -110,7 +113,10 @@ export default function Explore() {
               return (
                 <Dialog.Root key={book.id}>
                   <Dialog.Trigger onClick={() => handleBookDetails(book.id)}>
-                    <BookPreviewLg isReaded={true} book={book} />
+                    <BookPreviewLg
+                      isReaded={session?.user?.ratings?.includes(book.id)}
+                      book={book}
+                    />
                   </Dialog.Trigger>
 
                   <DialogBookContent bookId={bookId} />

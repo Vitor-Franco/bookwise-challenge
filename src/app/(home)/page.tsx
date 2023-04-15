@@ -21,6 +21,7 @@ interface Rating {
   rate: number
   created_at: string
   book: Book
+  user_id: string
   user: {
     avatar_url: string
     name: string

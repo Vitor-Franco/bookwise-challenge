@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Avatar } from '../../Avatar'
 import { RatingStars } from '../RatingStars'
 import dayjs from 'dayjs'
+import Link from 'next/link'
 
 interface Rating {
   id: string
   rate: number
   created_at: string
+  user_id: string
   book: {
     author: string
     cover_url: string
@@ -49,7 +51,12 @@ export function RatingPreviewWithBook({ rating }: RatingPreviewWithBookProps) {
   return (
     <div className="max-w-[610px] rounded-lg p-6 bg-gray-700 hover:bg-gray-600">
       <header className="flex gap-4">
-        <Avatar imageUrl={rating.user.avatar_url} username={rating.user.name} />
+        <Link href={`/profile/${rating.user_id}`}>
+          <Avatar
+            imageUrl={rating.user.avatar_url}
+            username={rating.user.name}
+          />
+        </Link>
 
         <div className="flex-1">
           <p className="text-gray-100">{rating.user.name}</p>
